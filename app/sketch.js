@@ -1,5 +1,8 @@
+var theCanvas;
 var frames = 0;
 var showCapture = true;
+var screenWidth = 400;
+var screenHeight = 300;
 
 var pixelsPerFrame1;
 var oldX1 = 0;
@@ -36,16 +39,18 @@ var currentColor = 1;
 var threshold = 20;
 
 function setup() {
-  createCanvas(320, 240);
+  theCanvas = createCanvas(screenWidth, screenHeight);
+  // theCanvas.style('width', 'auto');
+  // theCanvas.style('height', '100%');
 
   // start up our web cam
   capture = createCapture({
     video: {
       mandatory: {
-        minWidth: 320,
-        minHeight: 240,
-        maxWidth: 320,
-        maxHeight: 240
+        minWidth: screenWidth,
+        minHeight: screenHeight,
+        maxWidth: screenWidth,
+        maxHeight: screenHeight
       }
     }
   });
@@ -96,8 +101,8 @@ function draw() {
       var xSum = 0;
       var ySum = 0;
       for (var i = 0; i < bestLocations1.length; i++) {
-        xSum += (bestLocations1[i] / 4) % 320;
-        ySum += (bestLocations1[i] / 4) / 320;
+        xSum += (bestLocations1[i] / 4) % screenWidth;
+        ySum += (bestLocations1[i] / 4) / screenWidth;
       }
 
       // average our sums to get our 'centroid' point
@@ -114,8 +119,8 @@ function draw() {
       var xSum = 0;
       var ySum = 0;
       for (var i = 0; i < bestLocations2.length; i++) {
-        xSum += (bestLocations2[i] / 4) % 320;
-        ySum += (bestLocations2[i] / 4) / 320;
+        xSum += (bestLocations2[i] / 4) % screenWidth;
+        ySum += (bestLocations2[i] / 4) / screenWidth;
       }
 
       // average our sums to get our 'centroid' point
