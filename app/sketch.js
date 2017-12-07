@@ -21,10 +21,6 @@ var r1 = 0;
 var g1 = 0;
 var b1 = 0;
 
-var r2 = 0;
-var g2 = 0;
-var b2 = 0;
-
 var xPos1;
 var yPos1;
 
@@ -105,7 +101,7 @@ function draw() {
 
     var bestLocations1 = [];
 
-    for (var i = 0; i < capture.pixels.length; i += 8) {
+    for (var i = 0; i < capture.pixels.length; i += 16) {
       var match1 = dist(r1, g1, b1, capture.pixels[i], capture.pixels[i + 1], capture.pixels[i + 2]);
       if (match1 < threshold) {
         bestLocations1.push(i);
@@ -207,12 +203,12 @@ function mirrorVideo() {
 }
 
 function animateBackground(){
-    console.log("I'm animating!!")
+    // console.log("I'm animating!!")
     if (averagePPF1 < 3){
         animation1();
-    } else if (averagePPF1 < 9){
+    } else if (averagePPF1 < 7){
         animation2();
-    } else if (averagePPF1 < 15){
+    } else if (averagePPF1 < 11){
         animation3();
     } else {
         animation4();
@@ -220,7 +216,7 @@ function animateBackground(){
 }
 
 function animation1(){
-    background(0);
+    background(0, 100);
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
@@ -231,7 +227,7 @@ function animation1(){
 }
 
 function animation2(){
-    background(0, 255, 0);
+    background(0, 255, 0, 100);
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
@@ -242,7 +238,7 @@ function animation2(){
 }
 
 function animation3(){
-    background(0, 0, 255);
+    background(0, 0, 255, 100);
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
@@ -253,7 +249,7 @@ function animation3(){
 }
 
 function animation4(){
-    background(255, 0, 0);
+    background(255, 0, 0, 100);
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
