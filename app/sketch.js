@@ -4,7 +4,7 @@ var showCapture = true;
 var screenWidth = 360;
 var screenHeight = 270;
 
-var totalParticles = 300;
+var totalParticles = 100;
 
 var pixelsPerFrame1;
 var oldX1 = 0;
@@ -27,23 +27,24 @@ var yPos1;
 var frameCheck = 15;
 var currentColor = 1;
 
-// what is our current threshold?  This is how sensitve our color detection algorithm should be
-// low numbers means more sensitivity, high numbers mean less sensitivity (aka false positives)
+// low numbers means more color sensitivity, high numbers mean less sensitivity (aka false positives)
 var threshold = 20;
 
+var bg1;
+var bg2;
+var bg3;
+var bg4;
+var particle4;
+
+function preload() {
+    bg1 = loadImage("../backgrounds/1.png")
+    bg2 = loadImage("../backgrounds/2.png")
+    bg3 = loadImage("../backgrounds/3.png")
+    bg4 = loadImage("../backgrounds/4.png")
+    particle4 = loadImage("../particles/4-02.png")
+}
+
 function setup() {
-    theCanvas = createCanvas(screenWidth, screenHeight);
-    var canvasNode = document.getElementById("defaultCanvas0");
-    var parent = canvasNode.parentNode;
-    var wrapper = document.createElement('div');
-
-    parent.replaceChild(wrapper, canvasNode);
-    wrapper.appendChild(canvasNode);
-      // var theVideo = document.getElementsByTagName("video")[0];
-      // console.log(theVideo);
-      // container.appendChild(canvasNode);
-      // container.appendChild(theVideo);
-
       // container.style('width', '100%');
       // container.style('height', '100%');
 
@@ -75,18 +76,27 @@ function setup() {
         var tempWalker = new NoiseWalker( random(screenWidth), random(screenHeight) );
         walkerArray.push( tempWalker );
     }
+    theCanvas = createCanvas(screenWidth, screenHeight);
+    var canvasNode = document.getElementById("defaultCanvas0");
+    var parent = canvasNode.parentNode;
+    var wrapper = document.createElement('div');
 
-  var videoNode = document.getElementsByTagName("video")[0];
-  wrapper.appendChild(videoNode);
+    parent.replaceChild(wrapper, canvasNode);
+    var theVideo = document.getElementsByTagName("video")[0];
+    console.log(theVideo);
+    wrapper.appendChild(canvasNode);
+    wrapper.appendChild(theVideo);
 
-  // canvasNode.style.width = "100%";
-  // canvasNode.style.height = "100%";
-  //
-  // videoNode.style.width = "100%";
-  // videoNode.style.height = "100%";
-  //
-  // wrapper.style.width = "100%";
-  // wrapper.style.height = "100%";
+    wrapper.id = "container"
+
+    // canvasNode.style.width = "100%";
+    // canvasNode.style.height = "100%";
+    //
+    // videoNode.style.width = "100%";
+    // videoNode.style.height = "100%";
+    //
+    // wrapper.style.width = "100%";
+    // wrapper.style.height = "100%";
 }
 
 function draw() {
@@ -97,8 +107,6 @@ function draw() {
 
 
   if (capture.pixels.length > 0) {
-
-
     var bestLocations1 = [];
 
     for (var i = 0; i < capture.pixels.length; i += 16) {
@@ -206,9 +214,9 @@ function animateBackground(){
     // console.log("I'm animating!!")
     if (averagePPF1 < 3){
         animation1();
-    } else if (averagePPF1 < 7){
+    } else if (averagePPF1 < 6){
         animation2();
-    } else if (averagePPF1 < 11){
+    } else if (averagePPF1 < 9){
         animation3();
     } else {
         animation4();
@@ -216,7 +224,8 @@ function animateBackground(){
 }
 
 function animation1(){
-    background(0, 100);
+    // background(0, 100);
+    image(bg1, 0 , 0, width, height);
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
@@ -227,7 +236,8 @@ function animation1(){
 }
 
 function animation2(){
-    background(0, 255, 0, 100);
+    // background(0, 255, 0, 100);
+    image(bg2, 0 , 0, width, height);
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
@@ -238,7 +248,8 @@ function animation2(){
 }
 
 function animation3(){
-    background(0, 0, 255, 100);
+    // background(0, 0, 255, 100);
+    image(bg3, 0 , 0, width, height);
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
@@ -249,7 +260,8 @@ function animation3(){
 }
 
 function animation4(){
-    background(255, 0, 0, 100);
+    // background(255, 0, 0, 100);
+    image(bg4, 0 , 0, width, height);
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
@@ -281,21 +293,25 @@ function NoiseWalker(x, y) {
   this.display1 = function() {
       fill(this.r, this.g, this.b);
       ellipse(this.x, this.y, this.s, this.s);
+      // image(particle1, this.x, this.y, 20, 20);
   }
 
   this.display2 = function() {
       fill(this.r, this.g, this.b);
       ellipse(this.x, this.y, this.s, this.s);
+      // image(particle2, this.x, this.y, 20, 20);
   }
 
   this.display3 = function() {
       fill(this.r, this.g, this.b);
       ellipse(this.x, this.y, this.s, this.s);
+      // image(particle3, this.x, this.y, 20, 20);
   }
 
   this.display4 = function() {
       fill(this.r, this.g, this.b);
-      ellipse(this.x, this.y, this.s, this.s);
+      // ellipse(this.x, this.y, this.s, this.s);
+      image(particle4, this.x, this.y, 30, 30);
   }
 
   // movement mechanics
@@ -310,7 +326,7 @@ function NoiseWalker(x, y) {
 
     // are we close to the mouse?  if so, run away!
     if (dist(this.x, this.y, xPos1, yPos1) < 25) {
-      var speed = 1 + (averagePPF1/8);
+      var speed = 1 + (averagePPF1/2);
       if (xPos1 < this.x) {
         this.x += speed;
       }
