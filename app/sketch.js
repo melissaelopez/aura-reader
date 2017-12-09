@@ -229,7 +229,7 @@ function animation1(){
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
-      walkerArray[i].move();
+      walkerArray[i].move1();
       walkerArray[i].display1();
     }
     strokeWeight(5);
@@ -241,7 +241,7 @@ function animation2(){
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
-      walkerArray[i].move();
+      walkerArray[i].move2();
       walkerArray[i].display2();
     }
     strokeWeight(5);
@@ -253,7 +253,7 @@ function animation3(){
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
-      walkerArray[i].move();
+      walkerArray[i].move3();
       walkerArray[i].display3();
     }
     strokeWeight(5);
@@ -265,7 +265,7 @@ function animation4(){
     fill(0,10);
     noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
-      walkerArray[i].move();
+      walkerArray[i].move4();
       walkerArray[i].display4();
     }
     strokeWeight(5);
@@ -315,7 +315,139 @@ function NoiseWalker(x, y) {
   }
 
   // movement mechanics
-  this.move = function() {
+  this.move1 = function() {
+    // compute how much we should move
+    var xMovement = map( noise(this.xNoiseOffset), 0, 1, -1, 1 );
+    var yMovement = map( noise(this.yNoiseOffset), 0, 1, -1, 1 );
+
+    // update our position
+    this.x += xMovement;
+    this.y += yMovement;
+
+    // are we close to the mouse?  if so, run away!
+    if (dist(this.x, this.y, xPos1, yPos1) < 25) {
+      var speed = 1 + (averagePPF1/2);
+      if (xPos1 < this.x) {
+        this.x += speed;
+      }
+      else {
+        this.x -= speed;
+      }
+      if (yPos1 < this.y) {
+        this.y += speed;
+      }
+      else {
+        this.y -= speed;
+      }
+    }
+
+    // handle wrap-around
+    if (this.x > width) {
+      this.x = 0;
+    }
+    else if (this.x < 0) {
+      this.x = width;
+    }
+    if (this.y > height) {
+      this.y = 0;
+    }
+    else if (this.y < 0) {
+      this.y = height;
+    }
+
+    this.xNoiseOffset += 0.01;
+    this.yNoiseOffset += 0.01;
+  }
+  
+   this.move2 = function() {
+    // compute how much we should move
+    var xMovement = map( noise(this.xNoiseOffset), 0, 1, -1, 1 );
+    var yMovement = map( noise(this.yNoiseOffset), 0, 1, -1, 1 );
+
+    // update our position
+    this.x += xMovement;
+    this.y += yMovement;
+
+    // are we close to the mouse?  if so, run away!
+    if (dist(this.x, this.y, xPos1, yPos1) < 25) {
+      var speed = 1 + (averagePPF1/2);
+      if (xPos1 < this.x) {
+        this.x += speed;
+      }
+      else {
+        this.x -= speed;
+      }
+      if (yPos1 < this.y) {
+        this.y += speed;
+      }
+      else {
+        this.y -= speed;
+      }
+    }
+
+    // handle wrap-around
+    if (this.x > width) {
+      this.x = 0;
+    }
+    else if (this.x < 0) {
+      this.x = width;
+    }
+    if (this.y > height) {
+      this.y = 0;
+    }
+    else if (this.y < 0) {
+      this.y = height;
+    }
+
+    this.xNoiseOffset += 0.01;
+    this.yNoiseOffset += 0.01;
+  }
+   
+    this.move3 = function() {
+    // compute how much we should move
+    var xMovement = map( noise(this.xNoiseOffset), 0, 1, -1, 1 );
+    var yMovement = map( noise(this.yNoiseOffset), 0, 1, -1, 1 );
+
+    // update our position
+    this.x += xMovement;
+    this.y += yMovement;
+
+    // are we close to the mouse?  if so, run away!
+    if (dist(this.x, this.y, xPos1, yPos1) < 25) {
+      var speed = 1 + (averagePPF1/2);
+      if (xPos1 < this.x) {
+        this.x += speed;
+      }
+      else {
+        this.x -= speed;
+      }
+      if (yPos1 < this.y) {
+        this.y += speed;
+      }
+      else {
+        this.y -= speed;
+      }
+    }
+
+    // handle wrap-around
+    if (this.x > width) {
+      this.x = 0;
+    }
+    else if (this.x < 0) {
+      this.x = width;
+    }
+    if (this.y > height) {
+      this.y = 0;
+    }
+    else if (this.y < 0) {
+      this.y = height;
+    }
+
+    this.xNoiseOffset += 0.01;
+    this.yNoiseOffset += 0.01;
+  }
+    
+     this.move4 = function() {
     // compute how much we should move
     var xMovement = map( noise(this.xNoiseOffset), 0, 1, -1, 1 );
     var yMovement = map( noise(this.yNoiseOffset), 0, 1, -1, 1 );
