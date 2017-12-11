@@ -24,24 +24,32 @@ var b1 = 0;
 var xPos1;
 var yPos1;
 
+var runRadius = 25;
+
 var frameCheck = 15;
 var currentColor = 1;
 
 // low numbers means more color sensitivity, high numbers mean less sensitivity (aka false positives)
 var threshold = 20;
 
+var marker;
 var bg1;
 var bg2;
 var bg3;
 var bg4;
+var particle2;
+var particle3;
 var particle4;
 
 function preload() {
-    bg1 = loadImage("../backgrounds/1.png")
-    bg2 = loadImage("../backgrounds/2.png")
-    bg3 = loadImage("../backgrounds/3.png")
-    bg4 = loadImage("../backgrounds/4.png")
-    particle4 = loadImage("../particles/4-02.png")
+    marker = loadImage("../img/marker.png");
+    bg1 = loadImage("../backgrounds/1-01.png");
+    bg2 = loadImage("../backgrounds/2-02.png");
+    bg3 = loadImage("../backgrounds/3-03.png");
+    bg4 = loadImage("../backgrounds/4-04.png");
+    particle2 = loadImage("../particles/2.png");
+    particle3 = loadImage("../particles/3.png");
+    particle4 = loadImage("../particles/4-02.png");
 }
 
 function setup() {
@@ -61,7 +69,7 @@ function setup() {
     });
     capture.hide();
 
-    stroke(0, 255, 0);
+    noStroke();
     noFill();
     rectMode(CENTER);
 
@@ -100,16 +108,13 @@ function setup() {
 }
 
 function draw() {
-
-
   capture.loadPixels();
   mirrorVideo();
-
 
   if (capture.pixels.length > 0) {
     var bestLocations1 = [];
 
-    for (var i = 0; i < capture.pixels.length; i += 16) {
+    for (var i = 0; i < capture.pixels.length; i += 8) {
       var match1 = dist(r1, g1, b1, capture.pixels[i], capture.pixels[i + 1], capture.pixels[i + 2]);
       if (match1 < threshold) {
         bestLocations1.push(i);
@@ -137,8 +142,9 @@ function draw() {
       yPos1 = ySum / bestLocations1.length;
 
       // now we know the best match!  draw a box around it
-      stroke(0,255,0);
-      rect(xPos1, yPos1, 25, 25);
+      // stroke(0,255,0);
+      // rect(xPos1, yPos1, 25, 25);
+      image(marker, xPos1, yPos1, 40, 40);
     }
 
     pixelsPerFrame1 = dist(oldX1, oldY1, xPos1, yPos1);
@@ -211,64 +217,51 @@ function mirrorVideo() {
 }
 
 function animateBackground(){
-    // console.log("I'm animating!!")
-    if (averagePPF1 < 3){
+    if (averagePPF1 < 2){
+        runRadius = 20;
         animation1();
     } else if (averagePPF1 < 6){
+        runRadius = 30;
         animation2();
     } else if (averagePPF1 < 9){
+        runRadius = 40;
         animation3();
     } else {
+        runRadius = 50;
         animation4();
     }
 }
 
 function animation1(){
-    // background(0, 100);
     image(bg1, 0 , 0, width, height);
-    fill(0,10);
-    noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
       walkerArray[i].move1();
       walkerArray[i].display1();
     }
-    strokeWeight(5);
 }
 
 function animation2(){
-    // background(0, 255, 0, 100);
     image(bg2, 0 , 0, width, height);
-    fill(0,10);
-    noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
       walkerArray[i].move2();
       walkerArray[i].display2();
     }
-    strokeWeight(5);
 }
 
 function animation3(){
-    // background(0, 0, 255, 100);
     image(bg3, 0 , 0, width, height);
-    fill(0,10);
-    noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
       walkerArray[i].move3();
       walkerArray[i].display3();
     }
-    strokeWeight(5);
 }
 
 function animation4(){
-    // background(255, 0, 0, 100);
     image(bg4, 0 , 0, width, height);
-    fill(0,10);
-    noStroke();
     for (var i = 0; i < walkerArray.length; i++) {
       walkerArray[i].move4();
       walkerArray[i].display4();
     }
-    strokeWeight(5);
 }
 
 // our NoiseWalker class
@@ -297,20 +290,14 @@ function NoiseWalker(x, y) {
   }
 
   this.display2 = function() {
-      fill(this.r, this.g, this.b);
-      ellipse(this.x, this.y, this.s, this.s);
-      // image(particle2, this.x, this.y, 20, 20);
+      image(particle2, this.x, this.y, 50, 50);
   }
 
   this.display3 = function() {
-      fill(this.r, this.g, this.b);
-      ellipse(this.x, this.y, this.s, this.s);
-      // image(particle3, this.x, this.y, 20, 20);
+      image(particle3, this.x, this.y, 50, 50);
   }
 
   this.display4 = function() {
-      fill(this.r, this.g, this.b);
-      // ellipse(this.x, this.y, this.s, this.s);
       image(particle4, this.x, this.y, 30, 30);
   }
 
@@ -358,7 +345,7 @@ function NoiseWalker(x, y) {
     this.xNoiseOffset += 0.01;
     this.yNoiseOffset += 0.01;
   }
-  
+
    this.move2 = function() {
     // compute how much we should move
     var xMovement = map( noise(this.xNoiseOffset), 0, 1, -1, 1 );
@@ -402,7 +389,7 @@ function NoiseWalker(x, y) {
     this.xNoiseOffset += 0.01;
     this.yNoiseOffset += 0.01;
   }
-   
+
     this.move3 = function() {
     // compute how much we should move
     var xMovement = map( noise(this.xNoiseOffset), 0, 1, -1, 1 );
@@ -413,7 +400,7 @@ function NoiseWalker(x, y) {
     this.y += yMovement;
 
     // are we close to the mouse?  if so, run away!
-    if (dist(this.x, this.y, xPos1, yPos1) < 25) {
+    if (dist(this.x, this.y, xPos1, yPos1) < runRadius) {
       var speed = 1 + (averagePPF1/2);
       if (xPos1 < this.x) {
         this.x += speed;
@@ -446,7 +433,7 @@ function NoiseWalker(x, y) {
     this.xNoiseOffset += 0.01;
     this.yNoiseOffset += 0.01;
   }
-    
+
      this.move4 = function() {
     // compute how much we should move
     var xMovement = map( noise(this.xNoiseOffset), 0, 1, -1, 1 );
