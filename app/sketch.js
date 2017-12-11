@@ -24,7 +24,7 @@ var b1 = 0;
 var xPos1;
 var yPos1;
 
-var runRadius = 25;
+var runRadius = 30;
 
 var frameCheck = 15;
 var currentColor = 1;
@@ -144,7 +144,9 @@ function draw() {
       // now we know the best match!  draw a box around it
       // stroke(0,255,0);
       // rect(xPos1, yPos1, 25, 25);
+      imageMode(CENTER);
       image(marker, xPos1, yPos1, 40, 40);
+      imageMode(CORNER);
     }
 
     pixelsPerFrame1 = dist(oldX1, oldY1, xPos1, yPos1);
@@ -218,16 +220,16 @@ function mirrorVideo() {
 
 function animateBackground(){
     if (averagePPF1 < 2){
-        runRadius = 20;
+        runRadius = 30;
         animation1();
     } else if (averagePPF1 < 6){
-        runRadius = 30;
-        animation2();
-    } else if (averagePPF1 < 9){
         runRadius = 40;
+        animation2();
+    } else if (averagePPF1 < 10){
+        runRadius = 55;
         animation3();
     } else {
-        runRadius = 50;
+        runRadius = 65;
         animation4();
     }
 }
@@ -270,6 +272,8 @@ function NoiseWalker(x, y) {
   this.x = x;
   this.y = y;
 
+  this.scale = random(.5, 1.5);
+
   // store our color
   this.r = random(100,255);
   this.g = this.r;
@@ -290,11 +294,11 @@ function NoiseWalker(x, y) {
   }
 
   this.display2 = function() {
-      image(particle2, this.x, this.y, 50, 50);
+      image(particle2, this.x, this.y, 50*this.scale, 50*this.scale);
   }
 
   this.display3 = function() {
-      image(particle3, this.x, this.y, 50, 50);
+      image(particle3, this.x, this.y, 50*this.scale, 50*this.scale);
   }
 
   this.display4 = function() {
@@ -308,12 +312,12 @@ function NoiseWalker(x, y) {
     var yMovement = map( noise(this.yNoiseOffset), 0, 1, -1, 1 );
 
     // update our position
-    this.x += xMovement;
-    this.y += yMovement;
+    this.x += xMovement*1;
+    this.y += yMovement*1;
 
     // are we close to the mouse?  if so, run away!
     if (dist(this.x, this.y, xPos1, yPos1) < 25) {
-      var speed = 1 + (averagePPF1/2);
+      var speed = 1;
       if (xPos1 < this.x) {
         this.x += speed;
       }
@@ -352,12 +356,12 @@ function NoiseWalker(x, y) {
     var yMovement = map( noise(this.yNoiseOffset), 0, 1, -1, 1 );
 
     // update our position
-    this.x += xMovement;
-    this.y += yMovement;
+    this.x += xMovement*2;
+    this.y += yMovement*2;
 
     // are we close to the mouse?  if so, run away!
     if (dist(this.x, this.y, xPos1, yPos1) < 25) {
-      var speed = 1 + (averagePPF1/2);
+      var speed = 2;
       if (xPos1 < this.x) {
         this.x += speed;
       }
@@ -396,12 +400,12 @@ function NoiseWalker(x, y) {
     var yMovement = map( noise(this.yNoiseOffset), 0, 1, -1, 1 );
 
     // update our position
-    this.x += xMovement;
-    this.y += yMovement;
+    this.x += xMovement*3;
+    this.y += yMovement*3;
 
     // are we close to the mouse?  if so, run away!
     if (dist(this.x, this.y, xPos1, yPos1) < runRadius) {
-      var speed = 1 + (averagePPF1/2);
+      var speed = 3;
       if (xPos1 < this.x) {
         this.x += speed;
       }
@@ -440,12 +444,12 @@ function NoiseWalker(x, y) {
     var yMovement = map( noise(this.yNoiseOffset), 0, 1, -1, 1 );
 
     // update our position
-    this.x += xMovement;
-    this.y += yMovement;
+    this.x += xMovement*4;
+    this.y += yMovement*4;
 
     // are we close to the mouse?  if so, run away!
     if (dist(this.x, this.y, xPos1, yPos1) < 25) {
-      var speed = 1 + (averagePPF1/2);
+      var speed = 4;
       if (xPos1 < this.x) {
         this.x += speed;
       }
