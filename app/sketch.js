@@ -26,17 +26,19 @@ var yPos1;
 
 var runRadius = 30;
 
-var frameCheck = 30;
+var frameCheck = 15;
 var currentColor = 1;
 
 // low numbers means more color sensitivity, high numbers mean less sensitivity (aka false positives)
 var threshold = 20;
 
 var marker;
+var hand;
 var bg1;
 var bg2;
 var bg3;
 var bg4;
+var particle1;
 var particle2;
 var particle3;
 var particle4;
@@ -51,6 +53,7 @@ function preload() {
     particle2 = loadImage("../particles/2.png");
     particle3 = loadImage("../particles/3.png");
     particle4 = loadImage("../particles/4-02.png");
+    hand = loadImage("../particles/hand.png");
 }
 
 function setup() {
@@ -143,8 +146,10 @@ function draw() {
       xPos1 = xSum / bestLocations1.length;
       yPos1 = ySum / bestLocations1.length;
 
-      // draw the marker!
-      image(marker, xPos1, yPos1, 40, 40);
+      // now we know the best match!  draw a box around it
+      // stroke(0,255,0);
+      // rect(xPos1, yPos1, 25, 25);
+      image(hand, xPos1, yPos1, 40, 40);
     }
 
     pixelsPerFrame1 = dist(oldX1, oldY1, xPos1, yPos1);
@@ -218,7 +223,7 @@ function mirrorVideo() {
 
 function animateBackground(){
     if (averagePPF1 < 2){
-        runRadius = 50;
+        runRadius = 30;
         animation1();
     } else if (averagePPF1 < 6){
         runRadius = 80;
@@ -286,7 +291,7 @@ function NoiseWalker(x, y) {
 
   // display mechanics
   this.display1 = function() {
-      image(particle1, this.x, this.y, 50, 50);
+      image(particle1, this.x, this.y, 80, 80);
   }
 
   this.display2 = function() {
