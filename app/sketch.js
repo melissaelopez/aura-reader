@@ -72,6 +72,7 @@ function setup() {
     noStroke();
     noFill();
     rectMode(CENTER);
+    imageMode(CENTER);
 
     // request a detailed noise landscape
     noiseDetail(24);
@@ -123,7 +124,7 @@ function draw() {
 
     // draw the video only if we still need it!
     if (showCapture){
-        image(capture, 0, 0);
+        image(capture, screenWidth/2, screenHeight/2);
     } else {
         animateBackground();
     }
@@ -144,9 +145,7 @@ function draw() {
       // now we know the best match!  draw a box around it
       // stroke(0,255,0);
       // rect(xPos1, yPos1, 25, 25);
-      imageMode(CENTER);
       image(marker, xPos1, yPos1, 40, 40);
-      imageMode(CORNER);
     }
 
     pixelsPerFrame1 = dist(oldX1, oldY1, xPos1, yPos1);
@@ -223,7 +222,7 @@ function animateBackground(){
         runRadius = 30;
         animation1();
     } else if (averagePPF1 < 6){
-        runRadius = 40;
+        runRadius = 80;
         animation2();
     } else if (averagePPF1 < 10){
         runRadius = 55;
@@ -235,7 +234,7 @@ function animateBackground(){
 }
 
 function animation1(){
-    image(bg1, 0 , 0, width, height);
+    image(bg1, screenWidth/2 , screenHeight/2, width, height);
     for (var i = 0; i < walkerArray.length; i++) {
       walkerArray[i].move1();
       walkerArray[i].display1();
@@ -243,7 +242,7 @@ function animation1(){
 }
 
 function animation2(){
-    image(bg2, 0 , 0, width, height);
+    image(bg2, screenWidth/2 , screenHeight/2, width, height);
     for (var i = 0; i < walkerArray.length; i++) {
       walkerArray[i].move2();
       walkerArray[i].display2();
@@ -251,7 +250,7 @@ function animation2(){
 }
 
 function animation3(){
-    image(bg3, 0 , 0, width, height);
+    image(bg3, screenWidth/2 , screenHeight/2, width, height);
     for (var i = 0; i < walkerArray.length; i++) {
       walkerArray[i].move3();
       walkerArray[i].display3();
@@ -259,7 +258,7 @@ function animation3(){
 }
 
 function animation4(){
-    image(bg4, 0 , 0, width, height);
+    image(bg4, screenWidth/2 , screenHeight/2, width, height);
     for (var i = 0; i < walkerArray.length; i++) {
       walkerArray[i].move4();
       walkerArray[i].display4();
@@ -294,7 +293,7 @@ function NoiseWalker(x, y) {
   }
 
   this.display2 = function() {
-      image(particle2, this.x, this.y, 50*this.scale, 50*this.scale);
+      image(particle2, this.x, this.y, 70*this.scale, 70*this.scale);
   }
 
   this.display3 = function() {
