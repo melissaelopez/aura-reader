@@ -288,7 +288,7 @@ function NoiseWalker(x, y) {
 
   // display mechanics
   this.display1 = function() {
-      image(particle1, this.x-40, this.y-40, 80, 80);
+      image(particle1, this.x, this.y, 80, 80);
   }
 
   this.display2 = function() {
