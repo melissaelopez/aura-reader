@@ -47,6 +47,7 @@ function preload() {
     bg2 = loadImage("../backgrounds/2-02.png");
     bg3 = loadImage("../backgrounds/3-03.png");
     bg4 = loadImage("../backgrounds/4-04.png");
+    particle1 = loadImage("../particles/1.png");
     particle2 = loadImage("../particles/2.png");
     particle3 = loadImage("../particles/3.png");
     particle4 = loadImage("../particles/4-02.png");
@@ -287,9 +288,7 @@ function NoiseWalker(x, y) {
 
   // display mechanics
   this.display1 = function() {
-      fill(this.r, this.g, this.b);
-      ellipse(this.x, this.y, this.s, this.s);
-      // image(particle1, this.x, this.y, 20, 20);
+      image(particle1, this.x-40, this.y-40, 80, 80);
   }
 
   this.display2 = function() {
