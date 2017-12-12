@@ -26,7 +26,7 @@ var yPos1;
 
 var runRadius = 30;
 
-var frameCheck = 15;
+var frameCheck = 40;
 var currentColor = 1;
 
 // low numbers means more color sensitivity, high numbers mean less sensitivity (aka false positives)
@@ -55,8 +55,8 @@ var auraChanged = false;
 function preload() {
     transitionSound = loadSound("../sounds/transition.mp3");
     aura1Sound = loadSound("../sounds/aura1.mp3");
-    aura2Sound = loadSound("../sounds/aura2.mp3");
-    aura3Sound = loadSound("../sounds/aura3.mp3");
+    aura2Sound = loadSound("../sounds/aura2.m4a");
+    aura3Sound = loadSound("../sounds/aura3.m4a");
     aura4Sound = loadSound("../sounds/aura4.m4a");
     marker = loadImage("../img/marker.png");
     bg1 = loadImage("../backgrounds/1-01.png");
@@ -350,7 +350,7 @@ function NoiseWalker(x, y) {
 
   // display mechanics
   this.display1 = function() {
-      image(particle1, this.x, this.y, 80, 80);
+      image(particle1, this.x, this.y, 80*map(this.scale, .3, 1.5, .2, 2), 80*map(this.scale, .5, 1.5, .2, 1.5));
   }
 
   this.display2 = function() {
@@ -504,12 +504,12 @@ function NoiseWalker(x, y) {
     var yMovement = map( noise(this.yNoiseOffset), 0, 1, -1, 1 );
 
     // update our position
-    this.x += xMovement*4;
-    this.y += yMovement*4;
+    this.x += xMovement*8;
+    this.y += yMovement*8;
 
     // are we close to the mouse?  if so, run away!
-    if (dist(this.x, this.y, xPos1, yPos1) < 25) {
-      var speed = 4;
+    if (dist(this.x, this.y, xPos1, yPos1) < runRadius) {
+      var speed = 8;
       if (xPos1 < this.x) {
         this.x += speed;
       }
