@@ -42,8 +42,14 @@ var particle1;
 var particle2;
 var particle3;
 var particle4;
+var transitionSound;
+
+var oldAura = 0;
+var currentAura = 0;
+var auraChanged = false;
 
 function preload() {
+    transitionSound = loadSound("../sounds/transition.mp3");
     marker = loadImage("../img/marker.png");
     bg1 = loadImage("../backgrounds/1-01.png");
     bg2 = loadImage("../backgrounds/2-02.png");
@@ -223,17 +229,42 @@ function mirrorVideo() {
 
 function animateBackground(){
     if (averagePPF1 < 2){
+        oldAura = currentAura;
+        currentAura = 1;
+        if (oldAura != currentAura){
+            auraChanged = true;
+        }
         runRadius = 30;
         animation1();
     } else if (averagePPF1 < 6){
+        oldAura = currentAura;
+        currentAura = 2;
+        if (oldAura != currentAura){
+            auraChanged = true;
+        }
         runRadius = 80;
         animation2();
     } else if (averagePPF1 < 10){
+        oldAura = currentAura;
+        currentAura = 3;
+        if (oldAura != currentAura){
+            auraChanged = true;
+        }
         runRadius = 55;
         animation3();
     } else {
+        oldAura = currentAura;
+        currentAura = 4;
+        if (oldAura != currentAura){
+            auraChanged = true;
+        }
         runRadius = 65;
         animation4();
+    }
+    if (auraChanged){
+        transitionSound.play();
+        console.log("play the sounds!");
+        auraChanged = false;
     }
 }
 
