@@ -43,6 +43,10 @@ var particle2;
 var particle3;
 var particle4;
 var transitionSound;
+var aura1Sound;
+var aura2Sound;
+var aura3Sound;
+var aura4Sound;
 
 var oldAura = 0;
 var currentAura = 0;
@@ -50,6 +54,10 @@ var auraChanged = false;
 
 function preload() {
     transitionSound = loadSound("../sounds/transition.mp3");
+    aura1Sound = loadSound("../sounds/aura1.mp3");
+    aura2Sound = loadSound("../sounds/aura2.mp3");
+    aura3Sound = loadSound("../sounds/aura3.mp3");
+    aura4Sound = loadSound("../sounds/aura4.m4a");
     marker = loadImage("../img/marker.png");
     bg1 = loadImage("../backgrounds/1-01.png");
     bg2 = loadImage("../backgrounds/2-02.png");
@@ -263,7 +271,27 @@ function animateBackground(){
     }
     if (auraChanged){
         transitionSound.play();
-        console.log("play the sounds!");
+        if (currentAura == 1){
+            aura1Sound.play();
+            aura2Sound.stop();
+            aura3Sound.stop();
+            aura4Sound.stop();
+        } else if (currentAura == 2){
+            aura1Sound.stop();
+            aura2Sound.play();
+            aura3Sound.stop();
+            aura4Sound.stop();
+        } else if (currentAura == 3){
+            aura1Sound.stop();
+            aura2Sound.stop();
+            aura3Sound.play();
+            aura4Sound.stop();
+        } else if (currentAura == 4){
+            aura1Sound.stop();
+            aura2Sound.stop();
+            aura3Sound.stop();
+            aura4Sound.play();
+        }
         auraChanged = false;
     }
 }
